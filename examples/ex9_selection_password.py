@@ -20,6 +20,6 @@ for p in list_of_password:
             print(f"Сообщение {response2.text}, пароль {p}")
             break
 else:
-    print("Подходящего пароля в списке  списка Top 25 most common passwords by year according to SplashData нет")
+    print("Подходящего пароля в списке Top 25 most common passwords by year according to SplashData нет")
 
 
