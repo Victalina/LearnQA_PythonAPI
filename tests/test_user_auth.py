@@ -1,4 +1,3 @@
-import allure
 import pytest
 import allure
 from lib.base_case import BaseCase
@@ -13,6 +12,7 @@ class TestUserAuth(BaseCase):
         ("no_token")
     ]
 
+    @allure.step("Authorization with user 'vinkotov@example.com'")
     def setup(self):
 
         data = {
@@ -24,6 +24,7 @@ class TestUserAuth(BaseCase):
         self.token = self.get_header(response1, "x-csrf-token")
         self.user_id_from_auth_method = self.get_json_value(response1, "user_id")
 
+    @allure.title("Test user authorize (successful)")
     @allure.description("This test successfully authorize user by email and password")
     def test_user_auth(self):
 
@@ -40,6 +41,7 @@ class TestUserAuth(BaseCase):
             "User id from auth method is not equal to user id from check method"
         )
 
+    @allure.title("Test user authorize w/o sending auth cookie or token (unsuccessful)")
     @allure.description("This test checks authorization status w/o sending auth cookie or token")
     @pytest.mark.parametrize('condition', exclude_params)
     def test_negative_auth_check(self, condition):

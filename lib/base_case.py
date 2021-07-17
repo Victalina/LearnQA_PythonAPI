@@ -1,18 +1,21 @@
 import json.decoder
+import allure
 from requests import Response
 from datetime import datetime
 
 
 class BaseCase:
-
+    @allure.step("Get cookie")
     def get_cookie(self, response: Response, cookie_name):
         assert cookie_name in response.cookies, f"Cannot find cookie with name {cookie_name} in the last response"
         return response.cookies[cookie_name]
 
+    @allure.step("Get header")
     def get_header(self, response: Response, header_name):
         assert header_name in response.headers, f"Cannot find header with name {header_name} in the last response"
         return response.headers[header_name]
 
+    @allure.step("Get json value")
     def get_json_value(self, response: Response, name):
         try:
             response_as_dict = response.json()
@@ -23,10 +26,11 @@ class BaseCase:
 
         return response_as_dict[name]
 
+    @allure.step("Prepare registration data")
     def prepare_registration_data(self, email=None):
         if email is None:
             base_part = 'learnqa'
-            random_part = datetime.now().strftime("%m%d%Y%H%S")
+            random_part = datetime.now().strftime("%m%d%Y%H%S%H%S%S%H")
             domain = "example.com"
             email = f"{base_part}{random_part}@{domain}"
         return {
