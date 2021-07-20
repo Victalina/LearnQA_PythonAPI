@@ -22,5 +22,10 @@ class Environment:
         else:
             raise Exception (f"Unknown value of ENV variable {self.env}")
 
+    def generate_environment_xml(self):
+        with open("test_results/environment.xml", 'w', encoding='utf-8') as logger_file:
+            logger_file.write\
+                (f"<environment><parameter><key>Stand</key><value>{self.env}</value></parameter></environment>")
 
 ENV_OBJECT = Environment()
+Environment().generate_environment_xml()

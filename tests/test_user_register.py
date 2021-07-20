@@ -6,6 +6,7 @@ from lib.assertions import Assertions
 
 
 @allure.epic("Registration cases")
+@allure.feature("Registration")
 class TestUserRegister(BaseCase):
     missed_params = [
         ("username"),
@@ -16,6 +17,8 @@ class TestUserRegister(BaseCase):
     ]
 
     @allure.title("Test register user (successful)")
+    @allure.severity(severity_level="CRITICAL")
+    @allure.story("Register user (successful)")
     @allure.description("This test successfully register user by prepare data")
     def test_create_user_successfully(self):
         data = self.prepare_registration_data()
@@ -24,6 +27,7 @@ class TestUserRegister(BaseCase):
         Assertions.assert_json_has_key(response, "id")
 
     @allure.title("Test register user with existing email (unsuccessful)")
+    @allure.story("Register with existing email")
     @allure.description("This test doesn't register user with existing email")
     def test_create_user_with_existing_email(self):
         email = 'vinkotov@example.com'
@@ -35,6 +39,7 @@ class TestUserRegister(BaseCase):
             f"Unexpected response content {response.content}"
 
     @allure.title("Test register user with email without '@' (unsuccessful)")
+    @allure.story("Register with user with email without '@'")
     @allure.description("This test doesn't register user with email without '@'")
     def test_create_user_with_incorrect_email(self):
         email = 'test-test.ru'
@@ -45,6 +50,7 @@ class TestUserRegister(BaseCase):
             f"Unexpected response content {response.content}"
 
     @allure.title("Test register user with missed param (unsuccessful)")
+    @allure.story("Register with missed param")
     @allure.description("This test doesn't register user with missed param")
     @pytest.mark.parametrize('missed_param', missed_params)
     def test_create_user_without_param(self, missed_param):
@@ -57,6 +63,7 @@ class TestUserRegister(BaseCase):
             f"Unexpected response content {response.content} with missed param: {missed_param}"
 
     @allure.title("Test register user with too short name (unsuccessful)")
+    @allure.story("Register with too short name")
     @allure.description("This test doesn't register user with too short name")
     def test_create_user_with_short_name(self):
         data = self.prepare_registration_data()
@@ -67,6 +74,7 @@ class TestUserRegister(BaseCase):
             f"Unexpected response content for field 'firstName' when it is too short"
 
     @allure.title("Test register user too long name (unsuccessful)")
+    @allure.story("Register with too long name")
     @allure.description("This test doesn't register user with too long name")
     def test_create_user_with_long_name(self):
         data = self.prepare_registration_data()

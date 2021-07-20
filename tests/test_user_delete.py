@@ -6,9 +6,11 @@ import time
 
 
 @allure.epic("Deletion cases")
+@allure.feature("Deletion")
 class TestUserDelete(BaseCase):
 
     @allure.title("Test delete user with id 2 (unsuccessful)")
+    @allure.story("Delete user with id=2")
     @allure.description("This test doesn't delete user with id=2")
     def test_delete_user_with_id_2(self):
         data = {
@@ -36,6 +38,8 @@ class TestUserDelete(BaseCase):
         Assertions.assert_json_has_keys(response3, expected_fields)
 
     @allure.title("Test delete just create user (successful)")
+    @allure.story("Successfully delete just create user")
+    @allure.severity(severity_level="CRITICAL")
     @allure.description("This test successfully delete just create user")
     def test_delete_just_created_user(self):
         # REGISTER
@@ -73,6 +77,7 @@ class TestUserDelete(BaseCase):
         assert response4.text == "User not found", f"Unexpected response for getting deleted user"
 
     @allure.title("Test delete user with different user authorization (unsuccessful)")
+    @allure.story("Delete user with different user authorization")
     @allure.description("This test doesn't delete user with different user authorization")
     def test_delete_with_different_user(self):
         # REGISTER USER 1
@@ -142,21 +147,6 @@ class TestUserDelete(BaseCase):
                                              "Wrong last name of the user 1 after delete with different user")
         Assertions.assert_json_value_by_name(response6, "email", email_1,
                                              "Wrong email of the user 1 after delete with different user")
-        # GET USER 2
-        response7 = MyRequests.get(f"/user/{user_id_2}",
-                                   headers={'x-csrf-token': token_2},
-                                   cookies={'auth_sid': auth_sid_2})
-
-        Assertions.assert_code_status(response7, 200)
-
-        Assertions.assert_json_value_by_name(response7, "username", username_2,
-                                             "Wrong username of the user 2 after delete with different user")
-        Assertions.assert_json_value_by_name(response7, "firstName", first_name_2,
-                                             "Wrong first name of the user 2 after delete with different user")
-        Assertions.assert_json_value_by_name(response7, "lastName", last_name_2,
-                                             "Wrong last name of the user 2 after delete with different user")
-        Assertions.assert_json_value_by_name(response7, "email", email_2,
-                                             "Wrong email of the user 2 after delete with different user")
 
 
 

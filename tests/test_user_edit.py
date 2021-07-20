@@ -6,8 +6,11 @@ import time
 
 
 @allure.epic("Edition cases")
+@allure.feature("Edition")
 class TestEdit(BaseCase):
     @allure.title("Test edit just created user (successful)")
+    @allure.story("Successfully edit user after creation")
+    @allure.severity(severity_level="CRITICAL")
     @allure.description("This test successfully edit user after creation")
     def test_edit_just_created_user(self):
         # REGISTER
@@ -47,6 +50,7 @@ class TestEdit(BaseCase):
         Assertions.assert_json_value_by_name(response4, "firstName", new_name, "Wrong name of the user after edit")
 
     @allure.title("Test edit user without authorization(unsuccessful)")
+    @allure.story("Edit user without authorization")
     @allure.description("This test doesn't edit user without authorization")
     def test_edit_user_not_auth(self):
         # REGISTER
@@ -84,6 +88,7 @@ class TestEdit(BaseCase):
                                              "Wrong name of the user after edit without authorization")
 
     @allure.title("Test edit user with authorization as different user(unsuccessful)")
+    @allure.story("Edit user with authorization as different user")
     @allure.description("This test doesn't edit user with authorization as different user")
     def test_edit_with_different_user(self):
         # REGISTER USER 1
@@ -143,15 +148,9 @@ class TestEdit(BaseCase):
 
         Assertions.assert_json_value_by_name(response6, "firstName", first_name_1,
                                              "Wrong name of the user 1 after edit with different user")
-        # GET USER 2
-        response7 = MyRequests.get(f"/user/{user_id_2}",
-                                   headers={'x-csrf-token': token_2},
-                                   cookies={'auth_sid': auth_sid_2})
-
-        Assertions.assert_json_value_by_name(response7, "firstName", first_name_2,
-                                             "Wrong name of the user 2 after edit with different user")
 
     @allure.title("Test edit user email to email without '@'(unsuccessful)")
+    @allure.story("Edit user email to email without '@'")
     @allure.description("This test doesn't edit user email to email without '@'")
     def test_edit_user_email_to_bad_email(self):
         # REGISTER
@@ -192,6 +191,7 @@ class TestEdit(BaseCase):
         Assertions.assert_json_value_by_name(response4, "email", email, "Wrong email of the user after edit")
 
     @allure.title("Test edit user name to too short name (unsuccessful)")
+    @allure.story("Edit user name to too short name")
     @allure.description("This test doesn't edit user name to too short name")
     def test_edit_user_name_to_bad_name(self):
         # REGISTER
